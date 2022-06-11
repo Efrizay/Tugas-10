@@ -27,14 +27,14 @@ class GroupsController extends Controller
      */
     public function create()
     {
-     return view ('groups.create');
+     return view ('groups.add');
     }
-    public function createmember($id)
+    public function addmember($id)
     {
 
         $data['friends'] = Friends::all();
         $data['group'] = Groups::where('id',$id)->first();
-     return view ('groups.createmember', $data);
+     return view ('groups.addmember', $data);
     }
     public function deletemember($id)
     {

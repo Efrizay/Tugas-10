@@ -3,46 +3,47 @@
 @section('title', 'Groups')
 
 @section('content')
-<center><h2>Nama Grup</h2></center>
-<div class="text-right">
-<a href="/groups/create" class="btn btn-primary mb-2 btn-sm"><i class="fas fa-plus"></i> Tambah Group</a>
-</div>
+<a href="/groups/create" class="btn btn-sm btn-warning">Tambah Group</a><br><br>
 <div class="row">
-    
-  
-@foreach ($groups as $group)
-<div class="col-lg-4">
-  
-<div class="card" style="width: 17rem;">
+  <div class="col d-inline-flex">
+@foreach  ($groups as $group)
+
+<div class="card mt-2 me-2 bg-light" style="width: 18rem;">
   <div class="card-body">
-  <center>  
-    <div class="col-md-4">
-    </div>
-  </center>
-    <center><h3><a href="/groups/{{ $group['id']}}"class="card-title">{{ $group['name'] }}</a></h3></center>
-    <center> <p class="card-text">{{ $group['description'] }}</p></center>
-  <hr>
-  <center><a href="{{url('groups/createmember/'. $group['id'])}}" class="btn btn-primary">Tambah Anggota</a> </center>
-  __________________________________
-  <br>
-    <center><a href="/groups/{{$group['id']}}/edit" class="btn btn-warning">Edit Group</a> </center>
-    <form action="/groups/{{$group['id']}}" method="POST">
-      @csrf
-      @method('DELETE')
-      <br>
-    <center><button class="btn btn-danger">Delete Group</a> </center>
+    <a href="/groups/{{$group['id']}}" class="card-title">{{ $group['name'] }}</a>
+      <p class="card-text">{{ $group['description'] }}.</p>
+      <hr>
+       <a href="/groups/addmember/{{$group['id']}}" class="card-link btn btn-primary">Tambah Anggota </a>
+       <br><br>
+        @foreach ($group->friends as $friend)
+        
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{$friend->nama}}
+          <form action="/groups/deleteaddmember/{{ $friend->id }}" method="POST">
+            @csrf
+            @method('PUT')
+            <button type="submit" class="bedge card-link btn-danger">x</button>
+          </form>
+        </li>
+
+        @endforeach
+
+      <hr>
+    <a href="/groups/{{$group['id']}}/edit" class="card-link btn btn-warning">Edit Group</a>
+    <br><br>
+    <form action="/groups/{{ $group['id']}}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button class="card-link btn btn-danger">Delete Group</button>
     </form>
   </div>
 </div>
-</div>
+    
 @endforeach
 </div>
+</div>
 
-<div class="mt-3">
-  {{ $groups->links('paginationcustom') }}
-
+<div>
+    {{$groups-> links() }}
 </div>
 @endsection
-
-
-

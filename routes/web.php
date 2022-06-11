@@ -26,7 +26,7 @@ Route::get('/test/{ke}', [CobaController::class, 'urutan']);
 
 */
 
-Route::get('groups/createmember/{id}', [GroupsController::class, 'createmember']); 
+Route::get('groups/createmember/{id}', [GroupsController::class, 'addmember']); 
 Route::get('groups/deletemember/{id}', [GroupsController::class, 'deletemember']); 
 Route::post('groups/storemember/{id}', [GroupsController::class, 'storemember']); 
 Route::get('', [CobaController::class, 'index']);
