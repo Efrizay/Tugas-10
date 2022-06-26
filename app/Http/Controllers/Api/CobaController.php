@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Friends;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Groups;
+use App\Models\History;
+use App\Models\Friends;
 class CobaController extends Controller
 {
     /**
@@ -15,14 +17,13 @@ class CobaController extends Controller
      */
     public function index()
     {
-        $friends = Friends::orderBy('id', 'desc')->paginate(3);
+        $friends = \App\Models\Friends::OrderBy('id', 'desc')->paginate(3);
 
         return response()->json([
             'success' => true,
-            'message'   => 'Daftar data teman',
-            'data'      => $friends
-        ]. 200);
-
+            'message' => 'Daftar data teman',
+            'data' => $friends
+        ], 200);
     }
 
     /**
@@ -35,7 +36,7 @@ class CobaController extends Controller
     {
         $request->validate([
             'nama' => 'required|unique:friends|max:255',
-            'no_telp' => 'required|numeric',
+            'no_tlp' => 'required|numeric',
             'alamat' => 'required',
         ]);
 
@@ -43,25 +44,23 @@ class CobaController extends Controller
             'nama' => $request->nama,
             'no_tlp' => $request->no_tlp,
             'alamat' => $request->alamat,
-            'groups_id' => 0
+            'groups_id' => $request->groups_id
         ]);
 
         if($friends)
         {
             return response()->json([
                 'success' => true,
-                'message'   => 'Teman berhasil di tambahkan',
-                'data'      => $friends
-            ]. 200);
+                'message' => 'Teman berhasil ditambahkan',
+                'data' => $friends
+            ], 200);
         }else{
             return response()->json([
                 'success' => false,
-                'message'   => 'Teman gagal di tambahkan',
-                'data'      => $friends
-            ]. 409);
+                'message' => 'Teman gagal ditambahkan',
+                'data' => $friends
+            ], 409);
         }
-
-
     }
 
     /**

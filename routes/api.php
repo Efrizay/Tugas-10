@@ -16,13 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route ::get('','App\Http\Controllers\CobaController@index');
+Route::get('', [CobaController::class, 'index']);
 Route::resources([
-        'friends' => CobaController::class,
-        'groups' => GroupsController::class,
-
+    'friends' => CobaController::class,
+    'groups' => GroupsController::class
 ]);
